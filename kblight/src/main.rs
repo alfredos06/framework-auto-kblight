@@ -1,11 +1,9 @@
-//use std::env;
 use std::fs;
-
-
 
 fn main() {
 
-    let scale = 1;
+    let max_lumen = 80;
+    //let scale = 1;
     let i32brightness: i32;
     let file_path = "/sys/bus/iio/devices/iio:device0/in_illuminance_raw";
     let path_to_brightness = "/sys/class/leds/chromeos::kbd_backlight/brightness";
@@ -15,13 +13,13 @@ fn main() {
 
     let lumen = contents.trim().parse::<i32>().unwrap();
 
-    if lumen > 70 {
+    if lumen >= max_lumen {
         i32brightness = 0;
     } 
     else if lumen <= 0 {
         i32brightness = 100;
     }else {
-        i32brightness = lumen * scale;
+        i32brightness = max_lumen - lumen;
     }
 
     let brightness = &i32brightness.to_string();
