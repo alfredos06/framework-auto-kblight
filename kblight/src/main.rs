@@ -1,17 +1,17 @@
-use std::fs;
+use std::{f32::consts::E, f64::consts::E, fs};
 
 fn main() {
 
-    let max_lumen = 80;
+    let max_lumen: i32 = 80;
     //let scale = 1;
     let i32brightness: i32;
-    let file_path = "/sys/bus/iio/devices/iio:device0/in_illuminance_raw";
-    let path_to_brightness = "/sys/class/leds/chromeos::kbd_backlight/brightness";
+    let file_path: &str = "/sys/bus/iio/devices/iio:device0/in_illuminance_raw";
+    let path_to_brightness: &str = "/sys/class/leds/chromeos::kbd_backlight/brightness";
 
-    let contents = fs::read_to_string(file_path)
+    let contents: String = fs::read_to_string(file_path)
         .expect("Should have been able to read the file");
 
-    let lumen = contents.trim().parse::<i32>().unwrap();
+    let lumen: i32 = contents.trim().parse::<i32>().unwrap();
 
     if lumen >= max_lumen {
         i32brightness = 0;
@@ -22,7 +22,7 @@ fn main() {
         i32brightness = max_lumen - lumen;
     }
 
-    let brightness = &i32brightness.to_string();
+    let brightness: &String = &i32brightness.to_string();
     
     println!("{lumen}, {brightness}");
 
@@ -32,5 +32,4 @@ fn main() {
         Err(e) => println!("Fuckin Error {e}"),
         Ok(f) => f,
     }
-
 }
